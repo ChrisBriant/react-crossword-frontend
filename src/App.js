@@ -18,13 +18,15 @@ function App() {
       //Construct the coordinates object, first down and then accross
       const wordCoordinates = [];
       for(let item of data['down']) {
+        const wordCoordinates = {};
         //console.log(item);
         //Word object
 
         for(let coordinate of item['coordinates']) {
           let coordinateObj = {
             wordId : item['id'],
-            coordinates : [coordinate[1], coordinate[0]],
+            coordinates : coordinate,
+            //coordinates : [coordinate[1], coordinate[0]],
             letter : null,
           }
           if(coordinates[`${coordinate[1]},${coordinate[0]}`]) {
@@ -47,7 +49,7 @@ function App() {
       }
       for(let item of data['across']) {
         //console.log(item);
-        const wordCoordinates = [];
+        const wordCoordinates = {};
         for(let coordinate of item['coordinates']) {
           let coordinateObj = {
             wordId : item['id'],
@@ -78,9 +80,24 @@ function App() {
     });
   },[]);
 
+  const mapWordLetters = (word) => {
+    //const coordinateList = word.coordinates.map( itm => itm);
+    console.log('WORD IS',Object.keys(word.coordinates) );
+    const coordinates = Object.keys(word.coordinates);
+    for(let coordinate of coordinates) {
+      console.log(coordinate, usedSquares[coordinate][0]);
+      if(usedSquares[coordinate][0]['letter']) {
+        console.log('THERE IS A LETTER IN THIS WORD', usedSquares[coordinate][0]['letter'],coordinate, word['coordinates'][coordinate]);
+        word['coordinates'][coordinate] = usedSquares[coordinate][0]['letter'];
+      }
+    }
+    console.log('FINISHED WORD', word);
+  }
+
   const setClueFromWord = (wordIds) => {
     let clues = [];
     for(let id of wordIds) {
+      mapWordLetters(words[id]);
       clues = [...clues,words[id]];
     }
     setSelectedClues(clues);

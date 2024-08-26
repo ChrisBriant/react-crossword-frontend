@@ -8,9 +8,14 @@ const WordInput = (props) => {
   } 
 
   return (
-    props.wordInputs.map( (itm,idx) => (
-      <input maxLength="1" onInput={(evt) => handleInput(evt,idx)} key={idx} type="txt"></input>
-    ))
+    <div className="word-input">
+      {
+        props.wordInputsWithLetters.map( (itm,idx) => (
+          <input maxLength="1" onInput={(evt) => handleInput(evt,idx)} key={idx} type="txt" value={itm}></input>
+        ))
+      }
+    </div>
+
   );
 }
 

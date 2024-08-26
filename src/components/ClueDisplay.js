@@ -4,7 +4,9 @@ const ClueDisplay = (props) => {
   const setLetter = (wordId,letterCords,letter) => {
     console.log('THESE ARE TEH CLUES',props.selectedClues);
     console.log('Need to set letter at', wordId, letterCords);
-    console.log('PROPS SELECTED CLUES', props.selectedClues);
+    const selectedClue = props.selectedClues.filter(clue => clue.id ==wordId );
+    console.log('PROPS SELECTED CLUES', selectedClue[0].coordinates[letterCords]);
+    selectedClue[0].coordinates[letterCords] = letter;
     props.setLetterOnWord(letter,letterCords,wordId);
 
   }
@@ -32,7 +34,7 @@ const ClueDisplay = (props) => {
             <p>{itm.direction}</p>
             <p>{itm.clue}</p>
             <p>{itm.length} letters</p>
-            <WordInput setLetter={setLetter} coordinates={itm.coordinates} wordId={itm.id} wordInputsWithLetters={getArrayWithLetters(itm)} wordInputs={Array.from({length:itm.length})} />
+            <WordInput setLetter={setLetter} coordinates={itm.coordinates} wordId={itm.id} wordInputsWithLetters={getArrayWithLetters(itm)} />
           </div>
         ))
       }
